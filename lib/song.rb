@@ -42,21 +42,26 @@ class Song
     self.all.sort_by{ |song| song.name }
   end
   
-  def self.new_from_filename(filename) 
-    song = self.new
-    split_filename = filename.chomp("mp3").split(" - ")
-    song.name = split_filename[1]
-    song.artist_name = split_filename[0]
+def self.new_from_filename(filename)
+    rows = filename.split(" - ")
+    artist_name = rows[0]
+    name = rows[1].gsub(".mp3", "")
+    song = Song.new
+    song.name = name
+    song.artist_name = artist_name
     song
-  end 
-  
-  def self.create_from_filename(filename)
-    song = self.create
-    split_filename = filename.chomp("mp3").split(" - ")
-    song.name = split_filename[1]
-    song.artist_name = split_filename[0]
-    song
-  end 
+  end
+
+ def self.create_from_filename(filename)
+    rows = filename.split(" - ")
+    artist_name = rows[0]
+    name = rows[1].gsub(".mp3", "")
+    song_match = Song.new
+    song_match.name = name
+    song_match.artist_name = artist_name 
+    song_match.save
+    song_match
+ end
   
   def self.destroy_all 
     self.all.clear 
